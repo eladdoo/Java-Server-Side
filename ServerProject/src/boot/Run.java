@@ -6,7 +6,7 @@ import model.MyClientHandler;
 import model.MyServer;
 
 public class Run 
-{
+{//asd
 	public static void main(String[] args) 
 	{
 		MyClientHandler cl = new MyClientHandler();
