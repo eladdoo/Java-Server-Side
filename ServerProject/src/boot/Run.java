@@ -8,7 +8,7 @@ import model.MyServer;
 public class Run 
 {
 	public static void main(String[] args) 
-	{//dd
+	{
 		MyClientHandler cl = new MyClientHandler();
 		MyServerWindow win = new MyServerWindow("My Server",500,500);
 		MyServer serv = new MyServer(cl);
