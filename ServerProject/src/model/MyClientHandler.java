@@ -284,31 +284,41 @@ public class MyClientHandler extends Observable implements ClientHandler,Model
 	public void generateMaze(String name, int rows, int colls, boolean diag)
 	{
 		Future<MazeDomain> f;
-		if (this.algoMaze == "DFS")
-		{
-			f = executor.submit (new MazeCallable(rows,colls,new DFSMazeGenerator(),diag));
-		}
-		else
-		{
-			f = executor.submit (new MazeCallable(rows,colls,new RandomMazeGenerator(),diag));
-		}
-		
-		try 
+		if (this.savedM.containsKey(name)==true)
 		{
 			SolveProblem solut = new SolveProblem();
-			this.savedM.put(name,f.get());
-			solut.setMessage(name);
+			solut.setMessage("AlreadyExM");
 			solut.setM(null);
 			solut.setSol(null);
 			this.soloQueue.add(solut); //setting the solution in the queue 
 		}
-		catch (InterruptedException e)
+		else
 		{
-			e.printStackTrace();
-		} 
-		catch (ExecutionException e) 
-		{
-			e.printStackTrace();
+			if (this.algoMaze == "DFS")
+			{
+				f = executor.submit (new MazeCallable(rows,colls,new DFSMazeGenerator(),diag));
+			}
+			else
+			{
+				f = executor.submit (new MazeCallable(rows,colls,new RandomMazeGenerator(),diag));
+			}
+			try 
+			{
+				SolveProblem solut = new SolveProblem();
+				this.savedM.put(name,f.get());
+				solut.setMessage(name);
+				solut.setM(null);
+				solut.setSol(null);
+				this.soloQueue.add(solut); //setting the solution in the queue 
+			}
+			catch (InterruptedException e)
+			{
+				e.printStackTrace();
+			} 
+			catch (ExecutionException e) 
+			{
+				e.printStackTrace();
+			}
 		}
 	}
 
